@@ -1,6 +1,8 @@
 #include "stm32f4xx.h"
 #include "clockconfig.h"
 
+#include "PWM.h"
+
 custom_libraries::clock_config system_clock;
 
 int main(void) {
