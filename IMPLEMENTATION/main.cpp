@@ -3,11 +3,44 @@
 
 #include "PWM.h"
 
+#define PRESCALER 234
+#define ARR_VALUE 234
+
+/**
+ * 1. Clock period = 20ms (50Hz)
+ * 2. When on-time is 1 ms the motor is at 0*.
+ * 3. When on-time is 1.5ms the motor is at 90*.
+ * 4. When on-time is 2ms the motor is at 180*.
+ * 
+ */
+
 custom_libraries::clock_config system_clock;
+
+/**
+ * Initialize PWM object
+ */
+custom_libraries::PWM servo(TIM1,
+                            custom_libraries::channel1,
+                            GPIOA,
+                            4,
+                            custom_libraries::AF0,
+                            PRESCALER,
+                            ARR_VALUE);
 
 int main(void) {
   
   system_clock.initialize();
+
+  /**
+   * begin PWM
+   */
+  servo.begin();
+
+  /**
+   * Set initial duty cycle
+   */
+  servo.set_duty_cycle(100);
+  
   RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
   
   GPIOA->MODER |= GPIO_MODER_MODER7_0;
