@@ -13,7 +13,6 @@
  * 4. When on-time is 2ms the motor is at 180*.
  * 
  */
-
 custom_libraries::clock_config system_clock;
 
 /**
@@ -26,6 +25,17 @@ custom_libraries::PWM servo(TIM1,
                             custom_libraries::AF0,
                             PRESCALER,
                             ARR_VALUE);
+
+
+int get_ARR_value(uint8_t angle){
+  int start1 = 0;
+  int start2 = 0;
+  int stop1 = 0;
+  int stop2 = 0;
+  int  Auto_reload_value = (start2 + (stop2 - start2) * ((angle - start1)/(stop1-start1)));
+
+  return Auto_reload_value;
+}
 
 int main(void) {
   
