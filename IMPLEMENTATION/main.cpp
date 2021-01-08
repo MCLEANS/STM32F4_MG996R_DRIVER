@@ -3,6 +3,9 @@
 
 #include "PWM.h"
 
+/**
+ * Defined Auto Reload Value and prescaler to achieve 50hz frequency.
+ */
 #define PRESCALER 168
 #define ARR_VALUE 10000
 
