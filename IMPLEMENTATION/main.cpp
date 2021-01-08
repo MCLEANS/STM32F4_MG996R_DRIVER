@@ -3,8 +3,8 @@
 
 #include "PWM.h"
 
-#define PRESCALER 234
-#define ARR_VALUE 
+#define PRESCALER 168
+#define ARR_VALUE 10000
 
 /**
  * 1. Clock period = 20ms (50Hz)
