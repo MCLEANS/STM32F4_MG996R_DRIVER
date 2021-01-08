@@ -4,7 +4,7 @@
 #include "PWM.h"
 
 #define PRESCALER 234
-#define ARR_VALUE 234
+#define ARR_VALUE 
 
 /**
  * 1. Clock period = 20ms (50Hz)
@@ -27,14 +27,14 @@ custom_libraries::PWM servo(TIM1,
                             ARR_VALUE);
 
 
-int get_ARR_value(uint8_t angle){
+int get_duty_cycle_from_Angle(uint8_t angle){
   int start1 = 0;
   int start2 = 0;
   int stop1 = 0;
   int stop2 = 0;
-  int  Auto_reload_value = (start2 + (stop2 - start2) * ((angle - start1)/(stop1-start1)));
+  int  duty_cycle = (start2 + (stop2 - start2) * ((angle - start1)/(stop1-start1)));
 
-  return Auto_reload_value;
+  return duty_cycle
 }
 
 int main(void) {
