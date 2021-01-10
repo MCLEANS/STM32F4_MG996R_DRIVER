@@ -37,7 +37,7 @@ int get_duty_cycle_from_Angle(uint8_t angle){
   int stop2 = 1000;
   int  duty_cycle = (start2 + (stop2 - start2) * ((angle - start1)/(stop1-start1)));
 
-  return duty_cycle
+  return duty_cycle;
 }
 
 int main(void) {
