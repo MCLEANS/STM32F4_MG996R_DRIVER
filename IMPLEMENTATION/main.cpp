@@ -30,6 +30,9 @@ custom_libraries::PWM servo(TIM1,
                             ARR_VALUE);
 
 
+/**
+ * Function to generate duty cycle from angle
+ */
 int get_duty_cycle_from_Angle(uint8_t angle){
   int start1 = 0;
   int start2 = 180;
@@ -40,6 +43,9 @@ int get_duty_cycle_from_Angle(uint8_t angle){
   return duty_cycle;
 }
 
+/**
+ * Function to move the servo onto a particular angle
+ */
 void move_to_angle(uint8_t angle){
   int duty_cycle = get_duty_cycle_from_Angle(angle);
   servo.set_duty_cycle(duty_cycle);
