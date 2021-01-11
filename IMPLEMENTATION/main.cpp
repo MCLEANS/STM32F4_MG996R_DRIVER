@@ -3,11 +3,17 @@
 
 #include "PWM.h"
 
+#include <stdlib.h>
+
 /**
  * Defined Auto Reload Value and prescaler to achieve 50hz frequency.
  */
 #define PRESCALER 168
 #define ARR_VALUE 10000
+
+
+int starting_angle = 90;
+int previous_angle = 0;
 
 /**
  * 1. Clock period = 20ms (50Hz)
@@ -47,8 +53,29 @@ int get_duty_cycle_from_Angle(uint8_t angle){
  * Function to move the servo onto a particular angle
  */
 void move_to_angle(uint8_t angle){
-  int duty_cycle = get_duty_cycle_from_Angle(angle);
-  servo.set_duty_cycle(duty_cycle);
+  int differential_angle = previous_angle - angle;
+  if(differential_angle < 0){
+    for(int i =0 ; i < abs(differential_angle); i++){
+      int duty_cycle_neg = get_duty_cycle_from_Angle(previous_angle+i);
+      servo.set_duty_cycle(duty_cycle_neg);
+      //Put a small delay
+    }
+  previous_angle = angle;
+  }
+
+  if(differential_angle > 0){
+    for(int i = 0; i < abs(differential_angle); i++){
+      int duty_cycle_pos = get_duty_cycle_from_Angle(previous_angle-i);
+      servo.set_duty_cycle(duty_cycle_pos);
+      //Put a small delay
+    }
+  previous_angle = angle;
+  }
+
+  if(differential_angle == 0){
+    //Do nothing current PWM Signal perists
+  }
+  
 }
 
 int main(void) {
@@ -63,7 +90,8 @@ int main(void) {
   /**
    * Set initial duty cycle
    */
-  servo.set_duty_cycle(100);
+  servo.set_duty_cycle(starting_angle);
+  previous_angle = starting_angle;
   
   RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
   
