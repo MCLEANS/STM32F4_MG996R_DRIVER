@@ -56,8 +56,8 @@ void move_to_angle(uint8_t angle){
   int differential_angle = previous_angle - angle;
   if(differential_angle < 0){
     for(int i =0 ; i < abs(differential_angle); i++){
-      int duty_cycle_neg = get_duty_cycle_from_Angle(previous_angle+i);
-      servo.set_duty_cycle(duty_cycle_neg);
+      int duty_cycle_neg_diff = get_duty_cycle_from_Angle(previous_angle+i);
+      servo.set_duty_cycle(duty_cycle_neg_diff);
       //Put a small delay
     }
   previous_angle = angle;
