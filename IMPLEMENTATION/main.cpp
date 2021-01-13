@@ -79,7 +79,9 @@ void move_to_angle(uint8_t angle){
 }
 
 int main(void) {
-  
+  /**
+   * initialization of system clock
+   */
   system_clock.initialize();
 
   /**
