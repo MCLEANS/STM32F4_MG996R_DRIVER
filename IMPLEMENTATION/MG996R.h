@@ -2,9 +2,10 @@
 #define _MG996R_H
 
 #include "stm32f4xx.h"
+#include "PWM.h"
 
 namespace custom_libraries{
-class MG996R{
+class MG996R : public PWM{
     private:
         int starting_angle = 90;
         int previous_angle = 0;
