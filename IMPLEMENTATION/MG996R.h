@@ -19,6 +19,8 @@ class MG996R : public PWM{
                 alternate_function pin_function,
                 uint16_t prescaler,
                 uint16_t auto_reload_value);
+        uint16_t get_duty_cycle_from_Angle(uint8_t angle);
+        void move_to_angle(uint8_t angle);
         ~MG996R();
 
 
