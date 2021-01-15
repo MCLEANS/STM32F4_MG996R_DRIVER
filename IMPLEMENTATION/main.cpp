@@ -40,11 +40,8 @@ custom_libraries::PWM servo(TIM1,
  * Function to generate duty cycle from angle
  */
 int get_duty_cycle_from_Angle(uint8_t angle){
-  int start1 = 0;
-  int start2 = 180;
-  int stop1 = 500;
-  int stop2 = 1000;
-  int duty_cycle = (start2 + (stop2 - start2) * ((angle - start1)/(stop1-start1)));
+
+  int duty_cycle = (START2 + (STOP2 - START2) * ((angle - START1)/(STOP1-START1)));
 
   return duty_cycle;
 }

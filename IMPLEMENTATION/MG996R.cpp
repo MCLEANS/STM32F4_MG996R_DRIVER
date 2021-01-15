@@ -1,5 +1,10 @@
 #include "MG996R.h"
 
+#define START1 0
+#define START2 180
+#define STOP1 500
+#define STOP2 1000
+
 namespace custom_libraries{
 
 MG996R::MG996R(TIM_TypeDef *TIMER,
@@ -19,7 +24,8 @@ MG996R::MG996R(TIM_TypeDef *TIMER,
  }
 
 uint16_t MG996R::get_duty_cycle_from_Angle(uint8_t angle){
-
+    int duty_cycle = (START2 + (STOP2 - START2) * ((angle - START1)/(STOP1-START1)));
+    return duty_cycle;
 }
 
 void MG996R::move_to_angle(uint8_t angle){
