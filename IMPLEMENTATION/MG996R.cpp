@@ -23,10 +23,10 @@ uint16_t MG996R::get_duty_cycle_from_Angle(uint8_t angle){
 }
 
 void MG996R::move_to_angle(uint8_t angle){
-    
+
 }
 
- MG996R::~MG996R(){
+MG996R::~MG996R(){
      
  }
 
