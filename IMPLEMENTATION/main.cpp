@@ -73,7 +73,7 @@ void move_to_angle(uint16_t current_cycle, int &previous_cycle){
       //int duty_cycle_neg_diff = get_duty_cycle_from_Angle(previous_angle+i);
      servo2.set_duty_cycle(previous_cycle+i);
       //Put a small delay
-      for(volatile int i = 0; i < 20000; i++){}
+      //for(volatile int i = 0; i < 20000; i++){}
     }
   previous_cycle = current_cycle;
   }
@@ -83,7 +83,7 @@ void move_to_angle(uint16_t current_cycle, int &previous_cycle){
       //int duty_cycle_pos_diff = get_duty_cycle_from_Angle(previous_angle-i);
       servo2.set_duty_cycle(previous_cycle-i);
       //Put a small delay
-      for(volatile int i = 0; i < 20000; i++){}
+      //for(volatile int i = 0; i < 20000; i++){}
     }
   previous_cycle = current_cycle;
   }
