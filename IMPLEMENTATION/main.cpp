@@ -8,12 +8,21 @@
 /**
  * Defined Auto Reload Value and prescaler to achieve 50hz frequency.
  */
-#define PRESCALER 168
-#define ARR_VALUE 10000
+#define PRESCALER 84
+#define ARR_VALUE 40000
+
+#define PRESCALER_1 84
+#define ARR_VALUE_1 20000
+
+#define START1 1000
+#define START2 6000
+#define STOP1 0
+#define STOP2 180
 
 
 int starting_angle = 90;
-int previous_angle = 0;
+int previous_duty_cycle_1 = 0;
+int previous_duty_cycle_2 = 0;
 
 /**
  * 1. Clock period = 20ms (50Hz)
@@ -27,13 +36,21 @@ custom_libraries::clock_config system_clock;
 /**
  * Initialize PWM object
  */
-custom_libraries::PWM servo(TIM1,
+custom_libraries::PWM servo1(TIM1,
                             custom_libraries::channel1,
-                            GPIOA,
-                            4,
-                            custom_libraries::AF0,
+                            GPIOE,
+                            9,
+                            custom_libraries::AF1,
                             PRESCALER,
                             ARR_VALUE);
+
+custom_libraries::PWM servo2(TIM3,
+                            custom_libraries::channel1,
+                            GPIOC,
+                            6,
+                            custom_libraries::AF2,
+                            PRESCALER_1,
+                            ARR_VALUE_1);
 
 
 /**
@@ -49,27 +66,29 @@ int get_duty_cycle_from_Angle(uint8_t angle){
 /**
  * Function to move the servo onto a particular angle
  */
-void move_to_angle(uint8_t angle){
-  int differential_angle = previous_angle - angle;
-  if(differential_angle < 0){
-    for(int i =0 ; i < abs(differential_angle); i++){
-      int duty_cycle_neg_diff = get_duty_cycle_from_Angle(previous_angle+i);
-      servo.set_duty_cycle(duty_cycle_neg_diff);
+void move_to_angle(uint16_t current_cycle, int &previous_cycle){
+  int differential_cycle = previous_cycle - current_cycle;
+  if(differential_cycle < 0){
+    for(int i =0 ; i < abs(differential_cycle); i++){
+      //int duty_cycle_neg_diff = get_duty_cycle_from_Angle(previous_angle+i);
+     servo2.set_duty_cycle(previous_cycle+i);
       //Put a small delay
+      for(volatile int i = 0; i < 20000; i++){}
     }
-  previous_angle = angle;
+  previous_cycle = current_cycle;
   }
 
-  if(differential_angle > 0){
-    for(int i = 0; i < abs(differential_angle); i++){
-      int duty_cycle_pos_diff = get_duty_cycle_from_Angle(previous_angle-i);
-      servo.set_duty_cycle(duty_cycle_pos_diff);
+  if(differential_cycle > 0){
+    for(int i = 0; i < abs(differential_cycle); i++){
+      //int duty_cycle_pos_diff = get_duty_cycle_from_Angle(previous_angle-i);
+      servo2.set_duty_cycle(previous_cycle-i);
       //Put a small delay
+      for(volatile int i = 0; i < 20000; i++){}
     }
-  previous_angle = angle;
+  previous_cycle = current_cycle;
   }
 
-  if(differential_angle == 0){
+  if(differential_cycle == 0){
     //Do nothing current PWM Signal perists
   }
   
@@ -84,15 +103,46 @@ int main(void) {
   /**
    * begin PWM
    */
-  servo.begin();
+  servo1.begin();
+  servo2.begin();
 
   /**
    * Set initial duty cycle
    */
-  servo.set_duty_cycle(starting_angle);
-  previous_angle = starting_angle; 
+  servo2.set_duty_cycle(1500);
+  previous_duty_cycle_2 = 1500;
+  for(volatile uint64_t i = 0; i < 500000; i++){}
+ servo1.set_duty_cycle(2000);
+ previous_duty_cycle_1 = 2000;
   
   while(1){
+  /* servo1.set_duty_cycle(2000);
+    for(volatile uint64_t i = 0; i < 500000; i++){}
+     servo1.set_duty_cycle(2500);
+    for(volatile uint64_t i = 0; i < 500000; i++){}
+    */
+ // servo2.set_duty_cycle(1500);
+    //for(volatile uint64_t i = 0; i < 10000000; i++){}
+    move_to_angle(1400,previous_duty_cycle_2);
+
+    servo1.set_duty_cycle(2000);
+    for(volatile uint64_t i = 0; i < 3000000; i++){}
+     servo1.set_duty_cycle(4000);
+    for(volatile uint64_t i = 0; i < 12000000; i++){}
+
+    //servo2.set_duty_cycle(1750);
+    //for(volatile uint64_t i = 0; i < 10000000; i++){}
+    move_to_angle(1750,previous_duty_cycle_2);
+
+    //servo2.set_duty_cycle(2000);
+    //for(volatile uint64_t i = 0; i < 10000000; i++){}
+    move_to_angle(2000,previous_duty_cycle_2);
+     //servo2.set_duty_cycle(1750);
+    for(volatile uint64_t i = 0; i < 10000000; i++){}
+    move_to_angle(1750,previous_duty_cycle_2);
+   /* servo.set_duty_cycle(6000);
+    for(volatile uint64_t i = 0; i < 10000000; i++){}
+*/
   
   }
 }
