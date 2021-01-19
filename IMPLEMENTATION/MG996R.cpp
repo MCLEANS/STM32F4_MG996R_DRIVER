@@ -1,10 +1,5 @@
 #include "MG996R.h"
 
-#define START1 0
-#define START2 180
-#define STOP1 500
-#define STOP2 1000
-
 namespace custom_libraries{
 
 MG996R::MG996R(TIM_TypeDef *TIMER,
@@ -28,8 +23,14 @@ uint16_t MG996R::get_duty_cycle_from_Angle(uint8_t angle){
     return duty_cycle;
 }
 
-void MG996R::move_to_angle(uint8_t angle){
-
+void MG996R::move_to_angle(uint8_t new_duty_cycle,uint16_t &previous_duty_cycle){
+    uint16_t delta_duty_cycle = previous_duty_cycle - new_duty_cycle;
+    if(delta_duty_cycle < 0){
+        for(volatile uint16_t i = 0; i < abs(delta_duty_cycle); i++){
+            set_duty_cycle(previous_duty_cycle + i);
+        }
+        previous_duty_cycle = new_duty_cycle;
+    }
 }
 
 MG996R::~MG996R(){

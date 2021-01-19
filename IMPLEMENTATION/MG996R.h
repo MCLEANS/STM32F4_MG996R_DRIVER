@@ -4,6 +4,8 @@
 #include "stm32f4xx.h"
 #include "PWM.h"
 
+#include <stdlib.h>
+
 #define START1 0
 #define START2 180
 #define STOP1 500
@@ -25,7 +27,7 @@ class MG996R : public PWM{
                 uint16_t prescaler,
                 uint16_t auto_reload_value);
         uint16_t get_duty_cycle_from_Angle(uint8_t angle);
-        void move_to_angle(uint8_t angle);
+        void move_to_angle(uint8_t new_duty_cycle, uint16_t &previous_duty_cycle);
         ~MG996R();
 
 
