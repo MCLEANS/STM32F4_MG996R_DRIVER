@@ -4,6 +4,11 @@
 #include "stm32f4xx.h"
 #include "PWM.h"
 
+#define START1 0
+#define START2 180
+#define STOP1 500
+#define STOP2 1000
+
 namespace custom_libraries{
 class MG996R : public PWM{
     private:
