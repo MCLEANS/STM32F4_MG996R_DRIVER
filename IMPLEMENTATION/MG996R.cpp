@@ -42,7 +42,6 @@ void MG996R::move_to_angle(uint8_t new_duty_cycle,uint16_t &previous_duty_cycle)
          * Do something default here
          */
     }
-
 }
 
 MG996R::~MG996R(){

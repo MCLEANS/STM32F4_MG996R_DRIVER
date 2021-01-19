@@ -6,6 +6,14 @@
 
 #include <stdlib.h>
 
+/**
+ * 1. Clock period = 20ms (50Hz)
+ * 2. When on-time is 1 ms the motor is at 0*.
+ * 3. When on-time is 1.5ms the motor is at 90*.
+ * 4. When on-time is 2ms the motor is at 180*.
+ * 
+ */
+
 #define START1 0
 #define START2 180
 #define STOP1 500
