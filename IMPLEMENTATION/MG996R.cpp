@@ -31,6 +31,18 @@ void MG996R::move_to_angle(uint8_t new_duty_cycle,uint16_t &previous_duty_cycle)
         }
         previous_duty_cycle = new_duty_cycle;
     }
+    else if(delta_duty_cycle > 0){
+        for(volatile uint16_t i = 0; i < abs(delta_duty_cycle); i++){
+            set_duty_cycle(previous_duty_cycle - i);
+        }
+        previous_duty_cycle = new_duty_cycle;
+    }
+    else{
+        /**
+         * Do something default here
+         */
+    }
+
 }
 
 MG996R::~MG996R(){
