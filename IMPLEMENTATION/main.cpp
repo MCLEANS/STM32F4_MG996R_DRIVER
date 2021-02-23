@@ -8,9 +8,12 @@
 /**
  * Defined Auto Reload Value and prescaler to achieve 50hz frequency.
  */
+
+/* Configuration prescaler and Auto Reload value for 84MHz APB bus */
 #define PRESCALER 84
 #define ARR_VALUE 40000
 
+/* Configuration prescaler and Auto Reload value for 42MHz APB bus*/
 #define PRESCALER_1 84
 #define ARR_VALUE_1 20000
 
