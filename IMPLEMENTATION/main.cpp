@@ -139,51 +139,17 @@ int main(void) {
    * begin PWM
    */
   servo1.begin();
-  servo2.begin();
 
   /**
    * Set initial duty cycle
    */
-  servo2.set_duty_cycle(1000);
-  previous_duty_cycle_1 = 1000;
-  for(volatile uint64_t i = 0; i < 5000000; i++){}
-  
  servo1.set_duty_cycle(4000);
  previous_duty_cycle = 4000;
  for(volatile uint64_t i = 0; i < 5000000; i++){}
   
   while(1){
-  /*servo1.set_duty_cycle(4000);
-    for(volatile uint64_t i = 0; i < 10000000; i++){}
-     servo1.set_duty_cycle(3000);
-    for(volatile uint64_t i = 0; i < 10000000; i++){}
-    */
- // servo2.set_duty_cycle(1500);
-    //for(volatile uint64_t i = 0; i < 10000000; i++){}
-   // move_to_angle( 2500,previous_duty_cycle);
 
-   // servo1.set_duty_cycle(4000);
-   // for(volatile uint64_t i = 0; i < 3000000; i++){}
-   //  servo1.set_duty_cycle(3000);
-   //for(volatile uint64_t i = 0; i < 12000000; i++){}
     move_to_angle_2(1000,previous_duty_cycle_1);
-    //servo2.set_duty_cycle(1750);
-    //for(volatile uint64_t i = 0; i < 10000000; i++){}
-  //  move_to_angle(1750,previous_duty_cycle);
-  //for(volatile int i = 0; i < 50000; i++){}
-    //servo2.set_duty_cycle(2000);
-    //for(volatile uint64_t i = 0; i < 10000000; i++){}
-   // for(volatile int i = 0; i < 5000000; i++){}
-  //  move_to_angle(4000,previous_duty_cycle);
-     //servo2.set_duty_cycle(1750);
-    //for(volatile uint64_t i = 0; i < 10000000; i++){}
-    //move_to_angle(1750,previous_duty_cycle);
-   /* servo.set_duty_cycle(6000);
-    for(volatile uint64_t i = 0; i < 10000000; i++){}
-    
-*/
 
-move_to_angle_2(3000,previous_duty_cycle_1);
-  
   }
 }
