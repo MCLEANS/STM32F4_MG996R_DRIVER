@@ -47,14 +47,6 @@ custom_libraries::PWM servo1(TIM1,
                             PRESCALER,
                             ARR_VALUE);
 
-custom_libraries::PWM servo2(TIM3,
-                            custom_libraries::channel1,
-                            GPIOC,
-                            6,
-                            custom_libraries::AF2,
-                            PRESCALER_1,
-                            ARR_VALUE_1);
-
 
 /**
  * Function to generate duty cycle from angle
