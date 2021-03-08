@@ -73,7 +73,7 @@ void move_to_angle(uint16_t current_cycle, int &previous_cycle){
   int differential_cycle = previous_cycle - current_cycle;
   if(differential_cycle < 0){
     for(int i =0 ; i < abs(differential_cycle); i++){
-      //int duty_cycle_neg_diff = get_duty_cycle_from_Angle(previous_angle+i);
+      //int duty_cycle_neg_diff = get_duty_cycle_from_Angle(previous_angle+i);s
      servo1.set_duty_cycle(previous_cycle+i);
       //Put a small delay
       for(volatile int i = 0; i < 20000; i++){}
@@ -97,37 +97,6 @@ void move_to_angle(uint16_t current_cycle, int &previous_cycle){
   }
   
 }
-
-
-void move_to_angle_2(uint16_t current_cycle, int &previous_cycle){
-  int differential_cycle = previous_cycle - current_cycle;
-  if(differential_cycle < 0){
-    for(int i =0 ; i < abs(differential_cycle); i++){
-      //int duty_cycle_neg_diff = get_duty_cycle_from_Angle(previous_angle+i);
-     servo2.set_duty_cycle(previous_cycle+i);
-      //Put a small delay
-      for(volatile int i = 0; i < 2000; i++){}
-    }
-  previous_cycle = current_cycle;
-  
-  }
-
-  if(differential_cycle > 0){
-    for(int i = 0; i < abs(differential_cycle); i++){
-      //int duty_cycle_pos_diff = get_duty_cycle_from_Angle(previous_angle-i);
-      servo2.set_duty_cycle(previous_cycle-i);
-      //Put a small delay
-      for(volatile int i = 0; i < 2000; i++){}
-    }
-  previous_cycle = current_cycle;
-  }
-
-  if(differential_cycle == 0){
-    //Do nothing current PWM Signal perists
-  }
-  
-}
-
 
 int main(void) {
   /**
