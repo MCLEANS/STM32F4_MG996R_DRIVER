@@ -91,15 +91,8 @@ void move_to_angle(uint16_t current_cycle, int &previous_cycle){
 }
 
 int main(void) {
-  /**
-   * initialization of system clock
-   */
-  system_clock.initialize();
 
-  /**
-   * begin PWM
-   */
-  servo1.begin();
+  system_clock.initialize();
   
   while(1){
 
