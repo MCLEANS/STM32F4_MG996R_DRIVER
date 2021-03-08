@@ -100,17 +100,9 @@ int main(void) {
    * begin PWM
    */
   servo1.begin();
-
-  /**
-   * Set initial duty cycle
-   */
- servo1.set_duty_cycle(4000);
- previous_duty_cycle = 4000;
- for(volatile uint64_t i = 0; i < 5000000; i++){}
   
   while(1){
 
-    move_to_angle_2(1000,previous_duty_cycle_1);
 
   }
 }
