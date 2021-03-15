@@ -15,25 +15,24 @@
  */
 
 /* Configuration prescaler and Auto Reload value for 84MHz APB bus */
-#define PRESCALER 84
-#define ARR_VALUE 40000
+#define PRESCALER_APB2 84
+#define ARR_VALUE_APB2 40000
 
 /* Configuration prescaler and Auto Reload value for 42MHz APB bus*/
-#define PRESCALER_1 84
-#define ARR_VALUE_1 20000
+#define PRESCALER_APB1 84
+#define ARR_VALUE_APB1 20000
 
-#define DUTY_CYCLE_MIN 1000
-#define DUTY_CYCLE_MAX 4000
-#define ANGLE_MIN 0
-#define ANGLE_MAX 180
 
 #define INITIAL_POSITITON 90
 
 namespace custom_libraries{
 class MG996R : public PWM{
     private:
-        int starting_angle = 90;
-        int previous_angle = 0;
+        uint8_t previous_angle = 0;
+        uint16_t DUTY_CYCLE_MIN = 500;
+        uint16_t DUTY_CYCLE_MAX = 4000;
+        const uint8_t ANGLE_MIN = 0;
+        const uint8_t ANGLE_MAX  = 180;
     private:
     public:
     public:
@@ -41,9 +40,7 @@ class MG996R : public PWM{
                 channel input_channel,
                 GPIO_TypeDef *PORT,
                 uint8_t PIN,
-                alternate_function pin_function,
-                uint16_t prescaler,
-                uint16_t auto_reload_value);
+                alternate_function pin_function);
         int map(long x, long in_min, long in_max, long out_min, long out_max);
         int get_duty_cycle_from_Angle(uint8_t angle);
         void move_to_angle(uint16_t angle_to);

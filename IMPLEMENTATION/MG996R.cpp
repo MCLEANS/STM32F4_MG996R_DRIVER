@@ -6,17 +6,33 @@ MG996R::MG996R(TIM_TypeDef *TIMER,
                 channel input_channel,
                 GPIO_TypeDef *PORT,
                 uint8_t PIN,
-                alternate_function pin_function,
-                uint16_t prescaler,
-                uint16_t auto_reload_value):PWM(TIMER,
+                alternate_function pin_function):PWM(TIMER,
                                                 input_channel,
                                                 PORT,
                                                 PIN,
                                                 pin_function,
-                                                prescaler,
-                                                auto_reload_value){
+                                                PRESCALER_APB1,
+                                                ARR_VALUE_APB1){
     /* Initialize PWM */
     begin();
+
+    /**
+     * Check timer used and set prescaler and auto-reload value accordingly
+     */
+    if((TIMER == TIM1) || (TIMER == TIM10)){
+        set_prescaler(PRESCALER_APB2);
+        set_auto_reload_value(ARR_VALUE_APB2);
+        /* Configure maximum and minimum duty cycle */
+        DUTY_CYCLE_MIN = 1000;
+        DUTY_CYCLE_MAX = 4000;
+    }
+    else{
+        set_prescaler(PRESCALER_APB1);
+        set_auto_reload_value(ARR_VALUE_APB1);
+        /* Configure maximum and minimum duty cycle */
+        DUTY_CYCLE_MIN = 1000;
+        DUTY_CYCLE_MAX = 4000;
+    }
 
     /* Set initial position to 90 degrees */
     set_duty_cycle(get_duty_cycle_from_Angle(INITIAL_POSITITON));
