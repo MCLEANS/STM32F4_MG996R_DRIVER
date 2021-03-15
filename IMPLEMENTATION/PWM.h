@@ -25,6 +25,12 @@ enum alternate_function{
 
 class PWM {
 private:
+
+private:
+	void enable_TIMER_RCC(TIM_TypeDef *TIMER);
+	void enable_GPIO_RCC(GPIO_TypeDef *PORT);
+	
+public:
 	TIM_TypeDef *TIMER;
 	channel input_channel;
 	GPIO_TypeDef *PORT;
@@ -34,12 +40,6 @@ private:
 	uint16_t prescaler;
 	uint16_t auto_reload_value;
 	uint16_t duty_cycle = 0;
-
-private:
-	void enable_TIMER_RCC(TIM_TypeDef *TIMER);
-	void enable_GPIO_RCC(GPIO_TypeDef *PORT);
-public:
-public:
 
 public:
 	PWM(TIM_TypeDef *TIMER,channel input_channel, GPIO_TypeDef *PORT, uint8_t PIN,alternate_function pin_function, uint16_t prescaler , uint16_t auto_reload_value);
