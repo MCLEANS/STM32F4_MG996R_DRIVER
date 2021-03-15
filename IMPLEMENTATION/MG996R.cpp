@@ -15,34 +15,77 @@ MG996R::MG996R(TIM_TypeDef *TIMER,
                                                 pin_function,
                                                 prescaler,
                                                 auto_reload_value){
+    /* Initialize PWM */
+    begin();
+
+    /* Set initial position to 90 degrees */
+    set_duty_cycle(get_duty_cycle_from_Angle(INITIAL_POSITITON));
+    this->previous_angle = INITIAL_POSITITON;
 
  }
 
-uint16_t MG996R::get_duty_cycle_from_Angle(uint8_t angle){
-    int duty_cycle = (START2 + (STOP2 - START2) * ((angle - START1)/(STOP1-START1)));
-    return duty_cycle;
+/**
+ * custom map function
+ */
+int MG996R::map(long x, long in_min, long in_max, long out_min, long out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-void MG996R::move_to_angle(uint8_t new_duty_cycle,uint16_t &previous_duty_cycle){
-    uint16_t delta_duty_cycle = previous_duty_cycle - new_duty_cycle;
-    if(delta_duty_cycle < 0){
-        for(volatile uint16_t i = 0; i < abs(delta_duty_cycle); i++){
-            set_duty_cycle(previous_duty_cycle + i);
-        }
-        previous_duty_cycle = new_duty_cycle;
-    }
-    else if(delta_duty_cycle > 0){
-        for(volatile uint16_t i = 0; i < abs(delta_duty_cycle); i++){
-            set_duty_cycle(previous_duty_cycle - i);
-        }
-        previous_duty_cycle = new_duty_cycle;
-    }
-    else{
-        /**
-         * Do something default here
-         */
-    }
+/**
+ * Function to generate duty cycle from angle
+ */
+int MG996R::get_duty_cycle_from_Angle(uint8_t angle){
+  int duty_cycle = map(angle,ANGLE_MIN,ANGLE_MAX,DUTY_CYCLE_MIN,DUTY_CYCLE_MAX);
+  return duty_cycle;
 }
+
+/**
+ * Function to move the servo onto a particular angle
+ */
+void MG996R::move_to_angle(uint16_t angle_to){
+  
+  /* calculate differential duty cycle */
+  int differential_angle = this->previous_angle - angle_to;
+  if(differential_angle < 0){
+    /* Set PWM Pin to alternate output mode */
+    PORT->MODER &= ~(1 << (PIN*2));
+    PORT->MODER |= (1 << ((PIN*2)+1));
+    
+    for(int i = 0 ; i < abs(differential_angle); i++){
+        set_duty_cycle(get_duty_cycle_from_Angle(previous_angle+i));
+        //Put a small delay
+        for(volatile int i = 0; i < 300000; i++){}
+    }
+    /* Set pin to input */
+    PORT->MODER &= ~(1 << (PIN*2));
+	PORT->MODER &= ~(1 << ((PIN*2)+1));
+
+     previous_angle = angle_to;
+  
+  }
+
+  if(differential_angle > 0){
+    /* Set PWM Pin to alternate output mode */
+    PORT->MODER &= ~(1 << (PIN*2));
+	PORT->MODER |= (1 << ((PIN*2)+1));
+
+    for(int i = 0; i < abs(differential_angle); i++){
+        set_duty_cycle(get_duty_cycle_from_Angle(previous_angle-i));
+        //Put a small delay
+        for(volatile int i = 0; i < 350000; i++){}
+    }
+
+    /* Set pin to input mode */
+    PORT->MODER &= ~(1 << (PIN*2));
+	PORT->MODER &= ~(1 << ((PIN*2)+1));
+    previous_angle = angle_to;
+  }
+
+  if(differential_angle == 0){
+    //Do nothing current PWM Signal perists
+  }
+}
+
 
 MG996R::~MG996R(){
      
