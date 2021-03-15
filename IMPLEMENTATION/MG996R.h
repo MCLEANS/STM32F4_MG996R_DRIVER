@@ -14,10 +14,20 @@
  * 
  */
 
-#define START1 0
-#define START2 180
-#define STOP1 500
-#define STOP2 1000
+/* Configuration prescaler and Auto Reload value for 84MHz APB bus */
+#define PRESCALER 84
+#define ARR_VALUE 40000
+
+/* Configuration prescaler and Auto Reload value for 42MHz APB bus*/
+#define PRESCALER_1 84
+#define ARR_VALUE_1 20000
+
+#define DUTY_CYCLE_MIN 1000
+#define DUTY_CYCLE_MAX 4000
+#define ANGLE_MIN 0
+#define ANGLE_MAX 180
+
+#define INITIAL_POSITITON 90
 
 namespace custom_libraries{
 class MG996R : public PWM{
