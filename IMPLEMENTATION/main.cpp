@@ -17,13 +17,13 @@
 #define PRESCALER_1 84
 #define ARR_VALUE_1 20000
 
-#define START1 1000
-#define START2 2000
-#define STOP1 0
-#define STOP2 180
+#define DUTY_CYCLE_MIN 1000
+#define DUTY_CYCLE_MAX 4000
+#define ANGLE_MIN 0
+#define ANGLE_MAX 180
 
 
-int starting_angle = 90;
+int previous_angle = 0;
 int previous_duty_cycle_1 = 0;
 int previous_duty_cycle = 0;
 
@@ -49,53 +49,107 @@ custom_libraries::PWM servo1(TIM1,
 
 
 /**
+ * custom map function
+ */
+int map(long x, long in_min, long in_max, long out_min, long out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+/**
  * Function to generate duty cycle from angle
  */
 int get_duty_cycle_from_Angle(uint8_t angle){
-
-  int duty_cycle = (START2 + (STOP2 - START2) * ((angle - START1)/(STOP1-START1)));
-
+  int duty_cycle = map(angle,ANGLE_MIN,ANGLE_MAX,DUTY_CYCLE_MIN,DUTY_CYCLE_MAX);
   return duty_cycle;
 }
+
 
 /**
  * Function to move the servo onto a particular angle
  */
-void move_to_angle(uint16_t current_cycle, int &previous_cycle){
-  int differential_cycle = previous_cycle - current_cycle;
-  if(differential_cycle < 0){
-    for(int i =0 ; i < abs(differential_cycle); i++){
+void move_to_angle(uint16_t angle_to, int &angle_from){
+  
+  /* calculate differential duty cycle */
+  int differential_angle = angle_from - angle_to;
+  if(differential_angle < 0){
+      GPIOE->MODER &= ~(1 << (9*2));
+	  GPIOE->MODER |= (1 << ((9*2)+1));
+    for(int i = 0 ; i < abs(differential_angle); i++){
       //int duty_cycle_neg_diff = get_duty_cycle_from_Angle(previous_angle+i);s
-     servo1.set_duty_cycle(previous_cycle+i);
+    
+      servo1.set_duty_cycle(get_duty_cycle_from_Angle(angle_from+i));
+ 
       //Put a small delay
-      for(volatile int i = 0; i < 20000; i++){}
+      for(volatile int i = 0; i < 300000; i++){}
     }
-  previous_cycle = current_cycle;
+         GPIOE->MODER &= ~(1 << (9*2));
+	GPIOE->MODER &= ~(1 << ((9*2)+1));
+    //Set pin to alternate function mode
+  angle_from = angle_to;
   
   }
 
-  if(differential_cycle > 0){
-    for(int i = 0; i < abs(differential_cycle); i++){
+  if(differential_angle > 0){
+        GPIOE->MODER &= ~(1 << (9*2));
+	  GPIOE->MODER |= (1 << ((9*2)+1));
+    for(int i = 0; i < abs(differential_angle); i++){
       //int duty_cycle_pos_diff = get_duty_cycle_from_Angle(previous_angle-i);
-      servo1.set_duty_cycle(previous_cycle-i);
+      servo1.set_duty_cycle(get_duty_cycle_from_Angle(angle_from-i));
+     
       //Put a small delay
-      for(volatile int i = 0; i < 20000; i++){}
+      for(volatile int i = 0; i < 350000; i++){}
     }
-  previous_cycle = current_cycle;
+     GPIOE->MODER &= ~(1 << (9*2));
+	GPIOE->MODER &= ~(1 << ((9*2)+1));
+  angle_from = angle_to;
   }
 
-  if(differential_cycle == 0){
+  if(differential_angle == 0){
     //Do nothing current PWM Signal perists
   }
+
+  //Set pin to alternate function mode
+	
+  
+
   
 }
 
 int main(void) {
-
+  /* Initialize the system clock */
   system_clock.initialize();
-  
+  servo1.begin();
+  servo1.set_duty_cycle(1000);
+  previous_angle = 0;
+// for(volatile int i = 0; i < 7000000; i++){};
+  //servo1.set_duty_cycle(4000);
+ // previous_angle = 90;
+ //move_to_angle(90,previous_angle);
+
+
+    
   while(1){
+   
+// for(volatile int i = 0; i < 7000000; i++){};
+ // move_to_angle(0,previous_angle);
+   //for(volatile int i = 0; i < 7000000; i++){};
+ // move_to_angle(90,previous_angle);
+   // for(volatile int i = 0; i < 7000000; i++){};
+  //move_to_angle(180,previous_angle);
+  //for(volatile int i = 0; i < 7000000; i++){};
+  //move_to_angle(90,previous_angle);
+ // for(volatile int i = 0; i < 7000000; i++){};
+ // move_to_angle(0,previous_angle);
 
-
+ // for(volatile int i = 0; i < 9000000; i++){};
+  move_to_angle(0,previous_angle);
+   //for(volatile int i = 0; i < 100000; i++){};
+ move_to_angle(90,previous_angle);
+   // for(volatile int i = 0; i < 100000; i++){};
+  move_to_angle(180,previous_angle);
+  //for(volatile int i = 0; i < 9000000; i++){};
+  move_to_angle(90,previous_angle);
+ //for(volatile int i = 0; i < 100000; i++){};
+ move_to_angle(0,previous_angle);
   }
 }
