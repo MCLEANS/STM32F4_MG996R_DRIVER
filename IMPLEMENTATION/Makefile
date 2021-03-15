@@ -4,6 +4,7 @@
 CXX_SOURCES = main.cpp
 CXX_SOURCES += clockconfig.cpp
 CXX_SOURCES += PWM.cpp
+CXX_SOURCES += MG996R.cpp
 
 #C SOURCE FILES
 #SOURCES  = main.c

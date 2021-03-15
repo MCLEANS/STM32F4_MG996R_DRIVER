@@ -2,8 +2,11 @@
 #include "clockconfig.h"
 
 #include "PWM.h"
+#include "MG996R.h"
 
 #include <stdlib.h>
+
+
 
 /**
  * Defined Auto Reload Value and prescaler to achieve 50hz frequency.
