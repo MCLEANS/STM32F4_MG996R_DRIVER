@@ -60,7 +60,7 @@ int MG996R::get_duty_cycle_from_Angle(uint8_t angle){
  */
 void MG996R::move_to_angle(uint16_t angle_to){
   
-  /* calculate differential duty cycle */
+  /* calculate differential angle */
   int differential_angle = this->previous_angle - angle_to;
   if(differential_angle < 0){
     /* Set PWM Pin to alternate output mode */
@@ -74,16 +74,15 @@ void MG996R::move_to_angle(uint16_t angle_to){
     }
     /* Set pin to input */
     PORT->MODER &= ~(1 << (PIN*2));
-	PORT->MODER &= ~(1 << ((PIN*2)+1));
-
-     previous_angle = angle_to;
-  
+	  PORT->MODER &= ~(1 << ((PIN*2)+1));
+    
+    previous_angle = angle_to;
   }
 
   if(differential_angle > 0){
     /* Set PWM Pin to alternate output mode */
     PORT->MODER &= ~(1 << (PIN*2));
-	PORT->MODER |= (1 << ((PIN*2)+1));
+	  PORT->MODER |= (1 << ((PIN*2)+1));
 
     for(int i = 0; i < abs(differential_angle); i++){
         set_duty_cycle(get_duty_cycle_from_Angle(previous_angle-i));
@@ -93,7 +92,8 @@ void MG996R::move_to_angle(uint16_t angle_to){
 
     /* Set pin to input mode */
     PORT->MODER &= ~(1 << (PIN*2));
-	PORT->MODER &= ~(1 << ((PIN*2)+1));
+	  PORT->MODER &= ~(1 << ((PIN*2)+1));
+    
     previous_angle = angle_to;
   }
 
