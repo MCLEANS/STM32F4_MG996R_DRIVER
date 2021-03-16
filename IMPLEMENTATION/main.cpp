@@ -4,6 +4,7 @@
 #include "MG996R.h"
 
 #include <stdlib.h>
+#include <sstream>
 
 /**
  * 1. Clock period = 20ms (50Hz)
