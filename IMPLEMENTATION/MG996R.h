@@ -45,8 +45,6 @@ class MG996R : public PWM{
         int get_duty_cycle_from_Angle(uint8_t angle);
         void move_to_angle(uint16_t angle_to);
         ~MG996R();
-
-
 };
 
 }
