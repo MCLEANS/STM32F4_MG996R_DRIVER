@@ -34,6 +34,8 @@ class MG996R : public PWM{
         const uint8_t ANGLE_MIN = 0;
         const uint8_t ANGLE_MAX  = 180;
     private:
+        void set_alternate_function_mode();
+        void set_input_mode();
     public:
     public:
         MG996R(TIM_TypeDef *TIMER,
