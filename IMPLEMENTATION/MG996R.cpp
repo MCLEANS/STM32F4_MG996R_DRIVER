@@ -68,7 +68,7 @@ void MG996R::move_to_angle(uint16_t angle_to){
     
     for(int i = 0 ; i < abs(differential_angle); i++){
         set_duty_cycle(get_duty_cycle_from_Angle(previous_angle+i));
-        //Put a small delay
+        //Put a small pseudo delay
         for(volatile int i = 0; i < 300000; i++){}
     }
     /* Set pin to input */
@@ -83,7 +83,7 @@ void MG996R::move_to_angle(uint16_t angle_to){
 
     for(int i = 0; i < abs(differential_angle); i++){
         set_duty_cycle(get_duty_cycle_from_Angle(previous_angle-i));
-        //Put a small delay
+        //Put a small pseudo delay
         for(volatile int i = 0; i < 350000; i++){}
     }
 
