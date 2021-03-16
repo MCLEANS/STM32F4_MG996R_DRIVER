@@ -31,7 +31,7 @@ MG996R::MG996R(TIM_TypeDef *TIMER,
         set_auto_reload_value(ARR_VALUE_APB1);
         /* Configure maximum and minimum duty cycle */
         DUTY_CYCLE_MIN = 1000;
-        DUTY_CYCLE_MAX = 4000;
+        DUTY_CYCLE_MAX = 2000;
     }
 
     /* Set initial position to 90 degrees */
