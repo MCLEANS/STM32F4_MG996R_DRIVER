@@ -104,7 +104,6 @@ void MG996R::move_to_angle(uint16_t angle_to){
 void MG996R::set_alternate_function_mode(){
   PORT->MODER &= ~(1 << (PIN*2));
 	PORT->MODER |= (1 << ((PIN*2)+1));
-
 }
 
 /**
@@ -113,7 +112,6 @@ void MG996R::set_alternate_function_mode(){
 void MG996R::set_input_mode(){
   PORT->MODER &= ~(1 << (PIN*2));
 	PORT->MODER &= ~(1 << ((PIN*2)+1));
-
 }
 
 MG996R::~MG996R(){
