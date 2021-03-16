@@ -98,12 +98,18 @@ void MG996R::move_to_angle(uint16_t angle_to){
   }
 }
 
+/**
+ * Confiure pin to alternate function to support PWM
+ */
 void MG996R::set_alternate_function_mode(){
   PORT->MODER &= ~(1 << (PIN*2));
 	PORT->MODER |= (1 << ((PIN*2)+1));
 
 }
 
+/**
+ * Configure pin to input mode which is the default reset state
+ */
 void MG996R::set_input_mode(){
   PORT->MODER &= ~(1 << (PIN*2));
 	PORT->MODER &= ~(1 << ((PIN*2)+1));
