@@ -24,15 +24,29 @@ custom_libraries::MG996R servo1(TIM1,
                             9,
                             custom_libraries::AF1);
 
+custom_libraries::MG996R servo2(TIM2,
+                                custom_libraries::channel4,
+                                GPIOB,
+                                11,
+                                custom_libraries::AF1);
+
 
 int main(void) {
   /* Initialize the system clock */
   system_clock.initialize();
 
   while(1){
-    servo1.move_to_angle(0);
-    servo1.move_to_angle(90);
     servo1.move_to_angle(180);
     servo1.move_to_angle(90);
+    servo1.move_to_angle(180);
+    servo2.move_to_angle(0);
+    servo2.move_to_angle(90);
+    servo2.move_to_angle(180);
+    servo1.move_to_angle(180);
+    servo1.move_to_angle(90);
+    servo1.move_to_angle(180);
+    servo2.move_to_angle(90);
+    servo2.move_to_angle(0);
+  
   }
 }
