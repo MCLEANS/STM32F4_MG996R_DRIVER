@@ -71,9 +71,7 @@ void MG996R::move_to_angle(uint16_t angle_to){
         //Put a small pseudo delay
         for(volatile int i = 0; i < 300000; i++){}
     }
-    /* Set pin to input */
-    set_input_mode();
-    
+
     previous_angle = angle_to;
   }
 
@@ -86,9 +84,6 @@ void MG996R::move_to_angle(uint16_t angle_to){
         //Put a small pseudo delay
         for(volatile int i = 0; i < 350000; i++){}
     }
-
-    /* Set pin to input mode */
-    set_input_mode();
 
     previous_angle = angle_to;
   }
@@ -115,7 +110,7 @@ void MG996R::set_input_mode(){
 }
 
 MG996R::~MG996R(){
-     
+
  }
 
 }
