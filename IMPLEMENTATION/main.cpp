@@ -35,18 +35,16 @@ int main(void) {
   /* Initialize the system clock */
   system_clock.initialize();
 
-  while(1){
-    servo1.move_to_angle(180);
-    servo1.move_to_angle(90);
-    servo1.move_to_angle(180);
-    servo2.move_to_angle(0);
-    servo2.move_to_angle(90);
-    servo2.move_to_angle(180);
-    servo1.move_to_angle(180);
-    servo1.move_to_angle(90);
-    servo1.move_to_angle(180);
-    servo2.move_to_angle(90);
-    servo2.move_to_angle(0);
-  
+  while(1){   
+    servo1.move_to_angle(20); 
+   for(volatile int i = 0; i < 30000000; i++){}
+    servo2.move_to_angle(110);
+    for(volatile int i = 0; i < 300000; i++){}
+    
+    servo1.move_to_angle(200); 
+   for(volatile int i = 0; i < 300000; i++){}
+    servo2.move_to_angle(60); 
+    for(volatile int i = 0; i < 30000000; i++){}
+    
   }
 }
